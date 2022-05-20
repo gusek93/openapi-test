@@ -1,0 +1,115 @@
+openapi: 3.0.1
+info:
+  title: Openapi Order
+  description: Openapi
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: pending-order
+
+paths:
+  /member:
+    get:
+      tags:
+        - member
+      summary: get Member list
+      operationId: getMember
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemberResponse'
+    post:
+      tags:
+        - member
+      summary: create member
+      operationId: createMember
+      requestBody:
+        description: create member
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberRequest'
+        required: true
+      responses:
+        200:
+          description: create Member
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberResponse'
+        400:
+          description: fail member registry
+
+  /member/{id}:
+    put:
+      tags:
+        - member
+      summary: update member
+      operationId: updateMember
+      parameters:
+        - name: id
+          description: member id
+          schema:
+            type: integer
+            format: int64
+          in: path
+          required: true
+      requestBody:
+        description: member request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberRequest'
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberResponse'
+        "400":
+          description: Invalid company supplied
+        "404":
+          description: User not found
+
+
+#    get:
+#      tags:
+#        - pending-order
+#      summary: get all pending orders
+#      operationId: getAllPendingOrders
+#      responses:
+#        200:
+#          description: successful operation
+#          content:
+#            application/json:
+#              schema:
+#                  $ref: '#/components/schemas/PendingOrderResponse'
+
+components:
+  schemas:
+    MemberRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: Member name
+    MemberResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: Member name
