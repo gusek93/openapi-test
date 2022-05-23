@@ -1,6 +1,6 @@
-package com.example.openapitest.service;
+package com.example.openapitest.applycation;
 
-import com.example.openapitest.model.Member;
+import com.example.openapitest.member.adapter.domain.Member;
 import com.example.openapitest.repository.MemberRepository;
 import io.tej.SwaggerCodgen.model.MemberRequest;
 import org.slf4j.Logger;

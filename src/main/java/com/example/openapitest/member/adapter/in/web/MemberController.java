@@ -1,7 +1,7 @@
-package com.example.openapitest.controller;
+package com.example.openapitest.member.adapter;
 
-import com.example.openapitest.model.Member;
-import com.example.openapitest.service.MemberService;
+import com.example.openapitest.member.adapter.domain.Member;
+import com.example.openapitest.applycation.MemberService;
 import io.tej.SwaggerCodgen.api.MemberApi;
 import io.tej.SwaggerCodgen.model.MemberRequest;
 import io.tej.SwaggerCodgen.model.MemberResponse;

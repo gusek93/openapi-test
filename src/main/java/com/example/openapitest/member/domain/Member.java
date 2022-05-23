@@ -1,4 +1,4 @@
-package com.example.openapitest.model;
+package com.example.openapitest.member.adapter.domain;
 
 import lombok.Getter;
 import lombok.Setter;
