@@ -5,6 +5,7 @@ import com.example.openapitest.service.MemberService;
 import io.tej.SwaggerCodgen.api.MemberApi;
 import io.tej.SwaggerCodgen.model.MemberRequest;
 import io.tej.SwaggerCodgen.model.MemberResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +23,19 @@ public class MemberController implements MemberApi {
 
 
     @Override
-    public ResponseEntity<List<MemberResponse>> getMember() {
-        List<Member> memberList = memberService.getAllMember();
-        List<MemberResponse> members = new ArrayList<>();
+    public ResponseEntity<MemberResponse> createMember(MemberRequest memberRequest) {
+        Member member = memberService.createMember(memberRequest);
+        MemberResponse memberResponse = new MemberResponse()
+            .id(member.getId())
+            .name(member.getName());
 
+        return ResponseEntity.ok(memberResponse);
+    }
+
+    @Override
+    public ResponseEntity<List<MemberResponse>> getMember() {
+        List<Member> memberList = memberService.getMember();
+        List<MemberResponse> members = new ArrayList<>();
         memberList.forEach(e -> members.add(
             new MemberResponse()
                 .id(e.getId())
@@ -35,25 +45,22 @@ public class MemberController implements MemberApi {
         return ResponseEntity.ok(members);
     }
 
+
     @Override
-    public ResponseEntity<MemberResponse> createMember(MemberRequest memberRequest) {
-        Member member = memberService.createMember(memberRequest);
+    public ResponseEntity<MemberResponse> updateMember(Long id, MemberRequest memberRequest) {
+        Member member = memberService.updateMember(id, memberRequest);
+
         MemberResponse memberResponse = new MemberResponse()
-            .name(member.getName())
-            .id(member.getId());
+            .id(member.getId())
+            .name(member.getName());
 
         return ResponseEntity.ok(memberResponse);
-
     }
 
-//    @Override
-//    public ResponseEntity<MemberResponse> updateMember(MemberRequest memberRequest) {
-//        Member member = memberService.updateMember(memberRequest);
-//        MemberResponse memberResponse = new MemberResponse()
-//            .id(member.getId())
-//            .name(member.getName());
-//
-//        return ResponseEntity.ok(memberResponse);
-//    }
+    @Override
+    public ResponseEntity<Void> deleteMember(Long id) {
+        memberService.deleteMemberById(id);
 
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
 }

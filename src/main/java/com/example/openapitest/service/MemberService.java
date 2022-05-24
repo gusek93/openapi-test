@@ -3,15 +3,13 @@ package com.example.openapitest.service;
 import com.example.openapitest.model.Member;
 import com.example.openapitest.repository.MemberRepository;
 import io.tej.SwaggerCodgen.model.MemberRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class MemberService{
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+public class MemberService {
 
     private final MemberRepository memberRepository;
 
@@ -19,25 +17,31 @@ public class MemberService{
         this.memberRepository = memberRepository;
     }
 
-
-    public List<Member> getAllMember() {
-        List<Member> memberList = memberRepository.findAll();
-        return memberList;
-    }
-
-
-    public Member createMember(MemberRequest request) {
+    public Member createMember(MemberRequest memberRequest) {
         Member member = new Member();
-        member.setName(request.getName());
-        return memberRepository.save(member);
-
-    }
-
-    public Member updateMember(MemberRequest request) {
-        Member member = new Member();
-        member.setName(request.getName());
-        member.setId(request.getId());
-
+        member.setName(memberRequest.getName());
         return memberRepository.save(member);
     }
+
+    public List<Member> getMember() {
+       List<Member> memberList = memberRepository.findAll();
+
+       return memberList;
+    }
+
+    public Optional<Member> getMemberById(Long id) {
+        return memberRepository.findById(id);
+    }
+
+    public Member updateMember(Long id, MemberRequest memberRequest) {
+        Member member = getMemberById(id).get();
+        member.setName(memberRequest.getName());
+        return memberRepository.save(member);
+    }
+
+    public void deleteMemberById(Long id) {
+        memberRepository.deleteById(id);
+
+    }
+
 }
