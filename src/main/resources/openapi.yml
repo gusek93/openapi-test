@@ -79,6 +79,31 @@ paths:
         "404":
           description: User not found
 
+    delete:
+      tags:
+        - member
+      summary: delete member
+      operationId: deleteMember
+      parameters:
+        - name: id
+          description: member id
+          schema:
+            type: integer
+            format: int64
+          in: path
+          required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberResponse'
+        "400":
+          description: Invalid company supplied
+        "404":
+          description: User not found
+
 
 #    get:
 #      tags:
