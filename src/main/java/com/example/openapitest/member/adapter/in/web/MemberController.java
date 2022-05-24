@@ -1,7 +1,7 @@
-package com.example.openapitest.member.adapter;
+package com.example.openapitest.member.adapter.in.web;
 
-import com.example.openapitest.member.adapter.domain.Member;
-import com.example.openapitest.applycation.MemberService;
+import com.example.openapitest.member.application.port.in.MemberUseCase;
+import com.example.openapitest.member.domain.Member;
 import io.tej.SwaggerCodgen.api.MemberApi;
 import io.tej.SwaggerCodgen.model.MemberRequest;
 import io.tej.SwaggerCodgen.model.MemberResponse;
@@ -13,17 +13,28 @@ import java.util.List;
 
 @RestController
 public class MemberController implements MemberApi {
+    private final MemberUseCase memberUseCase;
 
-    private final MemberService memberService;
-
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
+    public MemberController(MemberUseCase memberUseCase) {
+        this.memberUseCase = memberUseCase;
     }
 
 
     @Override
+    public ResponseEntity<MemberResponse> createMember(MemberRequest memberRequest) {
+        Member member = memberUseCase.creatMember(memberRequest);
+
+        MemberResponse memberResponse = new MemberResponse()
+            .id(member.getId())
+            .name(member.getName());
+
+        return ResponseEntity.ok(memberResponse);
+    }
+
+    @Override
     public ResponseEntity<List<MemberResponse>> getMember() {
-        List<Member> memberList = memberService.getAllMember();
+
+        List<Member> memberList= memberUseCase.getMember();
         List<MemberResponse> members = new ArrayList<>();
 
         memberList.forEach(e -> members.add(
@@ -34,26 +45,4 @@ public class MemberController implements MemberApi {
 
         return ResponseEntity.ok(members);
     }
-
-    @Override
-    public ResponseEntity<MemberResponse> createMember(MemberRequest memberRequest) {
-        Member member = memberService.createMember(memberRequest);
-        MemberResponse memberResponse = new MemberResponse()
-            .name(member.getName())
-            .id(member.getId());
-
-        return ResponseEntity.ok(memberResponse);
-
-    }
-
-//    @Override
-//    public ResponseEntity<MemberResponse> updateMember(MemberRequest memberRequest) {
-//        Member member = memberService.updateMember(memberRequest);
-//        MemberResponse memberResponse = new MemberResponse()
-//            .id(member.getId())
-//            .name(member.getName());
-//
-//        return ResponseEntity.ok(memberResponse);
-//    }
-
 }

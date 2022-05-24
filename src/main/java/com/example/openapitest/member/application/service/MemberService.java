@@ -1,43 +1,38 @@
-package com.example.openapitest.applycation;
+package com.example.openapitest.member.application.service;
 
-import com.example.openapitest.member.adapter.domain.Member;
-import com.example.openapitest.repository.MemberRepository;
+import com.example.openapitest.member.application.port.in.MemberUseCase;
+import com.example.openapitest.member.application.port.out.CreateMemberPort;
+import com.example.openapitest.member.application.port.out.SelectMemberPort;
+import com.example.openapitest.member.domain.Member;
 import io.tej.SwaggerCodgen.model.MemberRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
-public class MemberService{
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+public class MemberService implements MemberUseCase {
 
-    private final MemberRepository memberRepository;
+    private final CreateMemberPort createMemberPort;
+    private final SelectMemberPort selectMemberPort;
 
-    public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
+    public MemberService(CreateMemberPort createMemberPort, SelectMemberPort selectMemberPort) {
+        this.createMemberPort = createMemberPort;
+        this.selectMemberPort = selectMemberPort;
     }
 
-
-    public List<Member> getAllMember() {
-        List<Member> memberList = memberRepository.findAll();
-        return memberList;
-    }
-
-
-    public Member createMember(MemberRequest request) {
+    @Override
+    public Member creatMember(MemberRequest request) {
         Member member = new Member();
         member.setName(request.getName());
-        return memberRepository.save(member);
 
+        return createMemberPort.save(member);
     }
 
-    public Member updateMember(MemberRequest request) {
-        Member member = new Member();
-        member.setName(request.getName());
-        member.setId(request.getId());
+    @Override
+    public List<Member> getMember() {
 
-        return memberRepository.save(member);
+        return selectMemberPort.get();
     }
 }
