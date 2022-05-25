@@ -95,10 +95,6 @@ paths:
       responses:
         "200":
           description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MemberResponse'
         "400":
           description: Invalid company supplied
         "404":

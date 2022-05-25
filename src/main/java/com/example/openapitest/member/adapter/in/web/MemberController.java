@@ -1,16 +1,17 @@
 package com.example.openapitest.member.adapter.in.web;
 
-import com.example.openapitest.member.adapter.out.persistence.MemberRepository;
 import com.example.openapitest.member.application.port.in.MemberUseCase;
 import com.example.openapitest.member.domain.Member;
 import io.tej.SwaggerCodgen.api.MemberApi;
 import io.tej.SwaggerCodgen.model.MemberRequest;
 import io.tej.SwaggerCodgen.model.MemberResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @RestController
 public class MemberController implements MemberApi {
@@ -60,7 +61,9 @@ public class MemberController implements MemberApi {
     }
 
     @Override
-    public ResponseEntity<MemberResponse> deleteMember(Long id) {
-        return MemberApi.super.deleteMember(id);
+    public ResponseEntity<Void> deleteMember(Long id) {
+        memberUseCase.deleteMember(id);
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

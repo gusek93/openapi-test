@@ -1,6 +1,7 @@
 package com.example.openapitest.member.adapter.out.persistence;
 
 import com.example.openapitest.member.application.port.out.CreateMemberPort;
+import com.example.openapitest.member.application.port.out.DeleteMemberPort;
 import com.example.openapitest.member.application.port.out.SelectMemberPort;
 import com.example.openapitest.member.application.port.out.UpdateMemberPort;
 import com.example.openapitest.member.domain.Member;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class MemberPersistenceAdapter implements CreateMemberPort, SelectMemberPort, UpdateMemberPort {
+public class MemberPersistenceAdapter implements CreateMemberPort, SelectMemberPort, UpdateMemberPort, DeleteMemberPort {
 
     private final MemberRepository memberRepository;
 
@@ -57,5 +58,10 @@ public class MemberPersistenceAdapter implements CreateMemberPort, SelectMemberP
             e.getId(),
             e.getName()
         );
+    }
+
+    @Override
+    public void delete(Long id) {
+        memberRepository.deleteById(id);
     }
 }

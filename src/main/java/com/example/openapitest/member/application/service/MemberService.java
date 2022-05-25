@@ -2,6 +2,7 @@ package com.example.openapitest.member.application.service;
 
 import com.example.openapitest.member.application.port.in.MemberUseCase;
 import com.example.openapitest.member.application.port.out.CreateMemberPort;
+import com.example.openapitest.member.application.port.out.DeleteMemberPort;
 import com.example.openapitest.member.application.port.out.SelectMemberPort;
 import com.example.openapitest.member.application.port.out.UpdateMemberPort;
 import com.example.openapitest.member.domain.Member;
@@ -18,11 +19,13 @@ public class MemberService implements MemberUseCase {
     private final CreateMemberPort createMemberPort;
     private final SelectMemberPort selectMemberPort;
     private final UpdateMemberPort updateMemberPort;
+    private final DeleteMemberPort deleteMemberPort;
 
-    public MemberService(CreateMemberPort createMemberPort, SelectMemberPort selectMemberPort, UpdateMemberPort updateMemberPort) {
+    public MemberService(CreateMemberPort createMemberPort, SelectMemberPort selectMemberPort, UpdateMemberPort updateMemberPort, DeleteMemberPort deleteMemberPort) {
         this.createMemberPort = createMemberPort;
         this.selectMemberPort = selectMemberPort;
         this.updateMemberPort = updateMemberPort;
+        this.deleteMemberPort = deleteMemberPort;
     }
 
     @Override
@@ -47,5 +50,10 @@ public class MemberService implements MemberUseCase {
         member.setName(request.getName());
 
         return updateMemberPort.update(member);
+    }
+
+    @Override
+    public void deleteMember(Long id) {
+        deleteMemberPort.delete(id);
     }
 }
