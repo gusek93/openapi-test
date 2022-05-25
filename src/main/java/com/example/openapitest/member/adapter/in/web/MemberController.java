@@ -5,11 +5,13 @@ import com.example.openapitest.member.domain.Member;
 import io.tej.SwaggerCodgen.api.MemberApi;
 import io.tej.SwaggerCodgen.model.MemberRequest;
 import io.tej.SwaggerCodgen.model.MemberResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @RestController
 public class MemberController implements MemberApi {
@@ -44,5 +46,24 @@ public class MemberController implements MemberApi {
         ));
 
         return ResponseEntity.ok(members);
+    }
+
+    @Override
+    public ResponseEntity<MemberResponse> updateMember(Long id, MemberRequest memberRequest) {
+        Member member = memberUseCase.updateMember(id, memberRequest);
+
+        MemberResponse memberResponse = new MemberResponse()
+            .id(member.getId())
+            .name(member.getName());
+
+
+        return ResponseEntity.ok(memberResponse);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteMember(Long id) {
+        memberUseCase.deleteMember(id);
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

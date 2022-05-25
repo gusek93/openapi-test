@@ -11,5 +11,9 @@ public interface MemberUseCase {
 
     List<Member> getMember();
 
+    Member updateMember(Long id, MemberRequest request);
+
+    void deleteMember(Long id);
+
 
 }
