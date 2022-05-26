@@ -6,6 +6,7 @@ import com.ktown4u.gms.company.adapter.in.web.MemberApi;
 import com.ktown4u.gms.company.adapter.in.web.MemberRequest;
 import com.ktown4u.gms.company.adapter.in.web.MemberResponse;
 import org.mapstruct.factory.Mappers;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,19 +47,13 @@ public class MemberController implements MemberApi {
     public ResponseEntity<MemberResponse> updateMember(Long id, MemberRequest memberRequest) {
         Member member = memberUseCase.updateMember(id, memberRequest);
 
-//        MemberResponse memberResponse = new MemberResponse()
-//            .id(member.getId())
-//            .name(member.getName());
-
         return ResponseEntity.ok(toResponse(member));
     }
 
+    @Override
+    public ResponseEntity<Void> deleteMember(Long id) {
+        memberUseCase.deleteMember(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
 
-//
-//    @Override
-//    public ResponseEntity<Void> deleteMember(Long id) {
-//        memberUseCase.deleteMember(id);
-//        return new ResponseEntity<Void>(HttpStatus.OK);
-//
-//    }
+    }
 }
