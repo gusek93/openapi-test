@@ -5,4 +5,6 @@ import com.example.openapitest.member.domain.Member;
 public interface UpdateMemberPort {
 
     Member update(Member member);
+
+    Member findById(Long id);
 }

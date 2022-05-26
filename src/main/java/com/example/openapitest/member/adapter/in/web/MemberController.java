@@ -41,18 +41,19 @@ public class MemberController implements MemberApi {
         return ResponseEntity.ok(members);
     }
 
-//
-//    @Override
-//    public ResponseEntity<MemberResponse> updateMember(Long id, MemberRequest memberRequest) {
-//        Member member = memberUseCase.updateMember(id, memberRequest);
-//
+
+    @Override
+    public ResponseEntity<MemberResponse> updateMember(Long id, MemberRequest memberRequest) {
+        Member member = memberUseCase.updateMember(id, memberRequest);
+
 //        MemberResponse memberResponse = new MemberResponse()
 //            .id(member.getId())
 //            .name(member.getName());
-//
-//
-//        return ResponseEntity.ok(memberResponse);
-//    }
+
+        return ResponseEntity.ok(toResponse(member));
+    }
+
+
 //
 //    @Override
 //    public ResponseEntity<Void> deleteMember(Long id) {

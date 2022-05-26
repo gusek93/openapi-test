@@ -13,6 +13,8 @@ public interface MemberUseCase {
 
     Member updateMember(Long id, MemberRequest request);
 
+    Member getMemberById(Long id);
+
     void deleteMember(Long id);
 
 

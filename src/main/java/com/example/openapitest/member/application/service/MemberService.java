@@ -41,13 +41,15 @@ public class MemberService implements MemberUseCase {
         return Collections.unmodifiableList(selectMemberPort.get());
     }
 
+    @Override
+    public Member getMemberById(Long id) {
+        return updateMemberPort.findById(id);
+    }
 
     @Override
     public Member updateMember(Long id, MemberRequest request) {
-        Member member = new Member();
-        member.setId(id);
-        member.setName(request.getName());
-
+        Member memberId = getMemberById(id);
+        Member member = Member.of(memberId.getId(), request.getName());
         return updateMemberPort.update(member);
     }
 
