@@ -10,8 +10,10 @@ public class Member {
     private Long id;
 
     private String name;
+    public Member() {}
 
-    public Member() {
+    public Member(String name) {
+        this.name = name;
     }
 
     private Member(Long id, String name) {
@@ -19,12 +21,13 @@ public class Member {
         this.name = name;
     }
 
+
     public static Member of(Long id, String name) {
         return new Member(id, name);
     }
 
-    public static Member up(Long id, String name) {
-        return new Member(id, name);
+    public static Member get(String name) {
+        return new Member(name);
     }
 
 }

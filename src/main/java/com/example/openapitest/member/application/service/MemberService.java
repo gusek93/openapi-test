@@ -31,7 +31,7 @@ public class MemberService implements MemberUseCase {
 
     @Override
     public Member creatMember(MemberRequest request) {
-        Member member = Member.of(request.getId(), request.getName());
+        Member member = Member.get(request.getName());
 
         return createMemberPort.save(member);
     }
@@ -48,8 +48,7 @@ public class MemberService implements MemberUseCase {
 
     @Override
     public Member updateMember(Long id, MemberRequest request) {
-        Member memberId = getMemberById(id);
-        Member member = Member.of(memberId.getId(), request.getName());
+        Member member = Member.of(id, request.getName());
         return updateMemberPort.update(member);
     }
 
