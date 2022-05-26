@@ -23,4 +23,8 @@ public class Member {
         return new Member(id, name);
     }
 
+    public static Member up(Long id, String name) {
+        return new Member(id, name);
+    }
+
 }

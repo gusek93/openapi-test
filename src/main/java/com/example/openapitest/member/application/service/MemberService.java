@@ -6,10 +6,11 @@ import com.example.openapitest.member.application.port.out.DeleteMemberPort;
 import com.example.openapitest.member.application.port.out.SelectMemberPort;
 import com.example.openapitest.member.application.port.out.UpdateMemberPort;
 import com.example.openapitest.member.domain.Member;
-import io.tej.SwaggerCodgen.model.MemberRequest;
+import com.ktown4u.gms.company.adapter.in.web.MemberRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -30,25 +31,25 @@ public class MemberService implements MemberUseCase {
 
     @Override
     public Member creatMember(MemberRequest request) {
-        Member member = new Member();
-        member.setName(request.getName());
+        Member member = Member.of(request.getId(), request.getName());
 
         return createMemberPort.save(member);
     }
 
     @Override
     public List<Member> getMember() {
-
-        return selectMemberPort.get();
+        return Collections.unmodifiableList(selectMemberPort.get());
     }
 
+    @Override
+    public Member getMemberById(Long id) {
+        return updateMemberPort.findById(id);
+    }
 
     @Override
     public Member updateMember(Long id, MemberRequest request) {
-        Member member = new Member();
-        member.setId(id);
-        member.setName(request.getName());
-
+        Member memberId = getMemberById(id);
+        Member member = Member.of(memberId.getId(), request.getName());
         return updateMemberPort.update(member);
     }
 

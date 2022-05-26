@@ -5,6 +5,7 @@ import com.example.openapitest.member.application.port.out.DeleteMemberPort;
 import com.example.openapitest.member.application.port.out.SelectMemberPort;
 import com.example.openapitest.member.application.port.out.UpdateMemberPort;
 import com.example.openapitest.member.domain.Member;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -14,26 +15,23 @@ import java.util.List;
 public class MemberPersistenceAdapter implements CreateMemberPort, SelectMemberPort, UpdateMemberPort, DeleteMemberPort {
 
     private final MemberRepository memberRepository;
+    private final MemberEntityMapper mapper;
 
     public MemberPersistenceAdapter(MemberRepository memberRepository) {
+
         this.memberRepository = memberRepository;
+        mapper = Mappers.getMapper(MemberEntityMapper.class);
     }
 
     @Override
     public Member save(Member member) {
-        MemberEntity memberEntity  = new MemberEntity();
-        memberEntity.setName(member.getName());
 
-        MemberEntity e = memberRepository.save(memberEntity);
-
-        return Member.of(
-            e.getId(),
-            e.getName()
-        );
+        return mapper.toDomain(memberRepository.save(mapper.toEntity(member)));
     }
 
     @Override
     public List<Member> get() {
+
         List<MemberEntity> memberList = memberRepository.findAll();
         List<Member> members = new ArrayList<>();
 
@@ -48,16 +46,12 @@ public class MemberPersistenceAdapter implements CreateMemberPort, SelectMemberP
 
     @Override
     public Member update(Member member) {
-        MemberEntity memberEntity = new MemberEntity();
-        memberEntity.setId(member.getId());
-        memberEntity.setName(member.getName());
+        return mapper.toDomain(memberRepository.save(mapper.toEntity(member)));
+    }
 
-        MemberEntity e = memberRepository.save(memberEntity);
-
-        return Member.of(
-            e.getId(),
-            e.getName()
-        );
+    @Override
+    public Member findById(Long id) {
+        return mapper.toDomain(memberRepository.getById(id));
     }
 
     @Override

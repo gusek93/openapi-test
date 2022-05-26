@@ -8,20 +8,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "member")
-//@Getter @Setter
+@Getter @Setter
 public class MemberEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-
-    }
 }
