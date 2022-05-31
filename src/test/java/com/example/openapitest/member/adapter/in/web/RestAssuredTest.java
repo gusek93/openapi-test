@@ -1,7 +1,5 @@
-package com.example.openapitest.member;
+package com.example.openapitest.member.adapter.in.web;
 
-import com.example.openapitest.member.domain.Member;
-import io.cucumber.java.hu.Ha;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +51,7 @@ public class RestAssuredTest {
     @Test
     public void deleteMember() {
         RestAssured.given()
-            .pathParam("id",71).log().all()
+            .pathParam("id",72).log().all()
             .when().delete("/member/{id}")
             .then().statusCode(200)
             .log().all();
