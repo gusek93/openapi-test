@@ -17,6 +17,8 @@
     <properties>
         <java.version>17</java.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <io.cucumber.version>7.3.4</io.cucumber.version>
+        <io.rest-assured.version>4.4.0</io.rest-assured.version>
     </properties>
 
     <dependencies>
@@ -86,6 +88,36 @@
             <version>0.23.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- cucumber -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${io.cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${io.cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${io.cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- cucumber -->
+        <!-- rest-assured-->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${io.rest-assured.version}</version>
+            <scope>test</scope>
+            <exclusions>
+            </exclusions>
+        </dependency>
+        <!-- rest-assured-->
     </dependencies>
     <build>
         <plugins>
