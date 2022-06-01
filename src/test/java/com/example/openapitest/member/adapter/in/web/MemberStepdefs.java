@@ -3,14 +3,20 @@ package com.example.openapitest.member.adapter.in.web;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.springframework.http.MediaType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MemberStepdefs {
+
+    private Response response;
 
     //Get
     @When("클라이언트가 member호출한다")
@@ -20,49 +26,58 @@ public class MemberStepdefs {
     }
 
     //Create
-    private Map<String, Object> requestData = new HashMap<>();
+    private Map<String, Object> member;
 
     @Given("클라이언트가 Member를 추가한다")
     public void 클라이언트가Member를추한다() {
-        requestData.put("name", "testcase1");
+        member = new HashMap<>();
+        member.put("name", "testcase1");
     }
 
     @When("클라이언트가 Member 생성을 요청한다")
     public void 클라이언트가Member생성을요청한다() {
+        response = RestAssured.
+        given().log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(ContentType.JSON)
+                .body(member)
+                .when().post("/member");
 
-        given().contentType("application/json")
-            .body(requestData).log().all()
-            .when().post("/member")
-            .then()
-            .assertThat().body("name", equalTo("testcase1")).log().all();
     }
 
 
     // Update
     @Given("클라이언트가 Member를 수정한다")
     public void 클라이언트가_Member를_수정한다() {
-        requestData.put("id", 74);
-        requestData.put("name", "fuckkingBDD");
+        member = new HashMap<>();
+        member.put("id", 8);
+        member.put("name", "updateTest");
     }
 
     @When("클라이언트가 Member 수정을 요청한다")
     public void 클라이언트가_Member_수정을_요청한다() {
-        given()
+        response = RestAssured.given()
             .contentType("application/json")
-            .pathParam("id",74)
-            .body(requestData).log().all()
-            .when().put("/member/{id}")
-            .then().statusCode(200)
-            .assertThat().body("id",equalTo(74))
-            .assertThat().body("name", equalTo("fuckkingBDD")).log().all();
+            .pathParam("id",8)
+            .body(member).log().all()
+            .when().put("/member/{id}");
+
     }
 
     @Then("클라이언트가 Member 수정이 됬는지 검증한다")
     public void 클라이언트가_Member_수정이_됬는지_검증한다() {
-
-//        assertThat(requestData.get(id));
-
+        assertThat((String)response.body().path("name")).isEqualTo("updateTest");
     }
+
+    @When("클라이언트가 Member 삭제 요청한다")
+    public void 클라이언트가Member삭제요청한다() {
+        response = RestAssured.given().pathParam("id",18).when().log().all().delete("/member/{id}");
+    }
+
+//    @Then("클라이언트가 Member 삭제 됬는지 검증한다")
+//    public void 클라이언트가Member삭제됬는지검증한다() {
+//        assertThat((String)response.body().path("id")).isEqualTo(1);
+//    }
 }
 
 
