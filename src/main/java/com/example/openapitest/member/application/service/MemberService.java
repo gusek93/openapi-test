@@ -29,9 +29,16 @@ public class MemberService implements MemberUseCase {
         this.deleteMemberPort = deleteMemberPort;
     }
 
+
     @Override
     public Member createMember(MemberRequest request) {
-        Member member = Member.get(request.getName());
+        Member member = createMemberPort.getByName(request.getName());
+        if(member != null) {
+            log.error("Member already exists");
+            throw new RuntimeException("Member already exists");
+        }
+
+        member = Member.get(request.getName());
 
         return createMemberPort.save(member);
     }

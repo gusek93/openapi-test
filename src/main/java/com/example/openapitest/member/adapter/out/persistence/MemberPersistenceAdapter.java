@@ -45,6 +45,11 @@ public class MemberPersistenceAdapter implements CreateMemberPort, SelectMemberP
     }
 
     @Override
+    public Member getByName(String member) {
+        return null;
+    }
+
+    @Override
     public Member update(Member member) {
         return mapper.toDomain(memberRepository.save(mapper.toEntity(member)));
     }
