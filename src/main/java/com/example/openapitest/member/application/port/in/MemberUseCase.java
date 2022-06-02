@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MemberUseCase {
 
-    Member creatMember(MemberRequest request);
+    Member createMember(MemberRequest request);
 
     List<Member> getMember();
 

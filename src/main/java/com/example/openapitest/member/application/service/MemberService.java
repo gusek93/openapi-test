@@ -30,7 +30,7 @@ public class MemberService implements MemberUseCase {
     }
 
     @Override
-    public Member creatMember(MemberRequest request) {
+    public Member createMember(MemberRequest request) {
         Member member = Member.get(request.getName());
 
         return createMemberPort.save(member);

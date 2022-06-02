@@ -24,7 +24,7 @@ public class MemberController implements MemberApi {
 
     @Override
     public ResponseEntity<MemberResponse> createMember(MemberRequest memberRequest) {
-        Member member = memberUseCase.creatMember(memberRequest);
+        Member member = memberUseCase.createMember(memberRequest);
 
         return ResponseEntity.ok(toResponse(member));
     }
